@@ -22,9 +22,9 @@ export const SettingsData = [
         
     },
     {
-        title:"Crear producto",
+        title:"Mis productos",
         description:"Pon en venta un producto",
-        Link:"/products/crearProductos",
+        Link:"/products/misProductos",
         img:"/delivery-box.png"
         
     }

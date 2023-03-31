@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 function DropdownMenu() {
   // Estado para controlar si el menú desplegable está visible o no
@@ -10,11 +11,19 @@ function DropdownMenu() {
   function toggleDropdown() {
     setDropdownVisible(!dropdownVisible);
   }
-  const router = useRouter()
-  const handleLogout =async ()=>{
-    const response = await axios.post('/api/login/logout')
-    console.log(response)
+  const router =useRouter()
+  const handleLogout =async (e)=>{
+    e.preventDefault()
+    try {
+      const response = await axios.post('/api/login/logout')
+      console.log(response)
+      router.push('/')
+    } catch (error) {
+      console.log(error)
+    }
+
   } 
+
 
   return (
     <div className="relative">
@@ -41,36 +50,37 @@ function DropdownMenu() {
           aria-labelledby="avatarButton"
         >
           <li>
-            <a
+            <b
               href="#"
               className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
             >
               Dashboard
-            </a>
+            </b>
           </li>
           <li>
-            <a
-              href="#"
+            <Link href='/settings'>
+            <b
               className="block px-4 py-2
                hover:bg-gray-100
                 dark:hover:bg-gray-600
                  dark:hover:text-white"
-              onClick={router.push('/settings')}
+              
             >
               Settings
-            </a>
+            </b>
+            </Link>
           </li>
           <li>
-            <a
+            <b
               href="#"
               className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
             >
               Earnings
-            </a>
+            </b>
           </li>
         </ul>
         <div className="py-1">
-          <a
+          <b
             href="#"
             className="block px-4 py-2 text-sm
              text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600
@@ -78,7 +88,7 @@ function DropdownMenu() {
             onClick={handleLogout}
           >
             Sign out
-          </a>
+          </b>
         </div>
       </div>
     </div>
