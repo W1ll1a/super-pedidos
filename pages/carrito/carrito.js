@@ -3,8 +3,8 @@ import React from 'react'
 const carrito = () => {
   return (
     <div>
-        <div>
-            
+        <div className='border border-rounded shadow-lg'>
+                    hola mundo
         </div>
     </div>
   )
