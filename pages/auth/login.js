@@ -1,28 +1,27 @@
 import React, { useEffect, useState } from 'react'
 import Link from "next/link";
 import axios from 'axios';
+import { useRouter } from 'next/router';
 
 
-const login = ({usuarios,contrasenias}) => {
-  const [usuario, setUsuario]= useState('')
-  const [password,setPassword] = useState('')
-  
-  const handleUsuario = (inputUsuario, inputPassword)=>{
-    setUsuario(inputUsuario)
-    setPassword(inputPassword)
-  }
-
-  useEffect(()=>{
-    console.log(usuario)
-    if (usuario === usuarios){
-      if(password === contrasenias){
-
-      }
-    }else {
-      console.log('no se encontro')
-    }
-
+const login = () => {
+  const [credentials, setCredentials]=useState({
+    email:'',
+    password:''
   })
+  const router=useRouter()
+  const handleUsuario = (e)=>{
+      setCredentials({
+        ...credentials,
+          [e.target.name]: e.target.value
+      })
+  }
+  const handleSubmit = async (e)=>{
+    e.preventDefault()
+    const res = await axios.post('/api/login/loginApi',credentials)
+    console.log(res)
+    router.push('/')
+  }
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
@@ -38,6 +37,7 @@ const login = ({usuarios,contrasenias}) => {
           <form
             id="login-form"
             className="space-y-4 md:space-y-6"
+            onSubmit={handleSubmit}
           >
             <div>
               <label
@@ -48,11 +48,12 @@ const login = ({usuarios,contrasenias}) => {
               </label>
               <input
                 type="email"
-                name="identifier"
+                name="email"
                 id="identifier"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="name@company.com"
                 required
+                onChange={handleUsuario}
                 
               />
             </div>
@@ -70,6 +71,7 @@ const login = ({usuarios,contrasenias}) => {
                 placeholder="••••••••"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required
+                onChange={handleUsuario}
                 
               />
             </div>
@@ -102,6 +104,7 @@ const login = ({usuarios,contrasenias}) => {
             <button
               type="submit"
               className="w-full text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-semibold rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+              
             >
               Log In
             </button>

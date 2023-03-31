@@ -2,6 +2,10 @@ import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import Drawer from "./Drawer";
+import Avatar from "./Avatar";
+import axios from "axios";
+import { useRouter } from "next/router";
+import { verify } from "jsonwebtoken";
 
 const NavBar = ({
   initialColor = "black",
@@ -9,10 +13,12 @@ const NavBar = ({
   textInitialColor = "white",
   textFinalColor,
 }) => {
-  const [nav, setNav] = useState(false);
+  const [nav, setNav] = useState(true);
   const [color, setColor] = useState(initialColor);
   const [textColor, setTextColor] = useState(textInitialColor);
   const [openClose, setOpenClose] = useState(false);
+  const [visibleTogggle,setVisible]=useState(false)
+
   const toggleOpenClose = () => {
     setOpenClose(!openClose);
     openDrawer();
@@ -40,6 +46,14 @@ const NavBar = ({
     window.addEventListener("scroll", changeColor);
     return () => window.removeEventListener("scroll", changeColor);
   }, []);
+  const router = useRouter()
+
+
+  const handleHome = async ()=>{ 
+    router.push('/')
+  }
+
+
   return (
     <div
       //Nav bar styling.
@@ -51,13 +65,16 @@ const NavBar = ({
           <h1
             style={{ color: `${textColor}` }}
             className="font-bold text-4xl p-4 "
+            onClick={handleHome}
           >
             ZoneDrop
           </h1>
         </Link>
         <ul style={{ color: `${textColor}` }} className="hidden sm:flex">
+          
           <li className=" p-4 ">
-            <button onClick={toggleOpenClose}>
+            {visibleTogggle &&(
+            <button onClick={toggleOpenClose} is>
               <svg
                 className="h-8 w-8 text-purple-700"
                 viewBox="0 0 24 24"
@@ -73,16 +90,25 @@ const NavBar = ({
                 <path d="M16 10a4 4 0 0 1-8 0" />
               </svg>
             </button>
-          </li>
-          <li className=" p-4 ">
-            <Link href="/">Home</Link>
-          </li>
-          <li className="flex  p-4">
-            <Link href="/about">About us</Link>
+              )}
+            </li>
+          <li className=" p-4">
+          {!visibleTogggle &&(
+            <button onClick={()=>{router.push('/auth/register')}}>
+            Register
+            </button>
+            )}
           </li>
           <li className=" p-4">
-            <Link href="/settings">Settings</Link>
+          {!visibleTogggle &&(
+            <button onClick={()=>{router.push('/auth/login')}}>Login</button>
+            )}
           </li>
+           {visibleTogggle &&(
+          <li className=" p-4">
+            <Link href="/"><Avatar/></Link>
+          </li>
+           )}
         </ul>
         {/*Mobil button*/}
         <div onClick={handleNav} className="sm:hidden block z-10 absolute">
@@ -180,5 +206,7 @@ const NavBar = ({
     </div>
   );
 };
+
+
 
 export default NavBar;

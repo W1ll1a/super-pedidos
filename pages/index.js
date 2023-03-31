@@ -1,11 +1,10 @@
-import { Inter } from 'next/font/google'
 import Hero from '@/components/Hero'
 import axios from 'axios'
-import { relativeTimeRounding } from 'moment'
 import Link from 'next/link'
 
 
 export default function Home({categorias}) {
+
   return (
   <>
     <Hero></Hero>
