@@ -24,7 +24,7 @@ const NavBar = ({
   const [visibleTogggle,setVisible]=useState(false);
 
   const user = useUser();
-  
+
   const toggleOpenClose = () => {
     setOpenClose(!openClose);
     openDrawer();
@@ -108,7 +108,7 @@ const NavBar = ({
           </li>
           
           <li className=" p-4">
-            <Link href="/"><Avatar/></Link>
+            <Avatar/>
           </li>
      
         </ul>
