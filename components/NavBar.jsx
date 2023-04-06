@@ -9,6 +9,7 @@ import { verify } from "jsonwebtoken";
 import Cookies from "js-cookie";
 import { jwt } from "jsonwebtoken";
 import Carrito from "./Carrito";
+import { useUser } from "@/hooks/users";
 
 const NavBar = ({
   initialColor = "black",
@@ -20,9 +21,10 @@ const NavBar = ({
   const [color, setColor] = useState(initialColor);
   const [textColor, setTextColor] = useState(textInitialColor);
   const [openClose, setOpenClose] = useState(false);
-  const [visibleTogggle,setVisible]=useState(false)
- 
+  const [visibleTogggle,setVisible]=useState(false);
 
+  const user = useUser();
+  
   const toggleOpenClose = () => {
     setOpenClose(!openClose);
     openDrawer();
@@ -57,18 +59,6 @@ const NavBar = ({
     router.push('/')
   }
 
-  function isTokenValid(){
-    try{
-      decodedToken =jwt.verify(myTokenName,'secrete')
-      console.log(true)
-      return true
-    }catch(error){
-      console.log('false')
-      return false
-    }
-  }
-
-
   return (
     <div
       //Nav bar styling.
@@ -87,8 +77,8 @@ const NavBar = ({
         </Link>
         <ul style={{ color: `${textColor}` }} className="hidden sm:flex">
           
-          <li className=" p-4 ">
-            <button onClick={()=>{router.push('/carrito/carrito')}}>
+          {user && <li className=" p-4 ">
+            <button onClick={()=>{router.push("/carrito/index")}}>
               <svg
                 className="h-8 w-8 text-white"
                 viewBox="0 0 24 24"
@@ -104,7 +94,7 @@ const NavBar = ({
                 <path d="M16 10a4 4 0 0 1-8 0" />
               </svg>
             </button>   
-            </li>
+            </li>}
           <li className=" p-4">
             <button onClick={()=>{router.push('/auth/register')}}>
             Register

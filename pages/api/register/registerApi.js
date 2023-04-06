@@ -1,5 +1,5 @@
 import { pool } from "@/config/db";
-
+import { jwt } from "jsonwebtoken";
 
 
 export default async function handler(req,res){
@@ -36,8 +36,8 @@ const getUsers = async(req,res)=>{
 
 const getUser = async(req, res)=>{
     console.log (res.userName)
-    const [userName] = req.query
-    const [result]= await pool.query("SELECT password FROM usuario WHERE userName= ?",userName)
+    const {userName} = jwt.decode(req.cookies[0])
+    const [result]= await pool.query("SELECT * FROM usuario WHERE userName= ?",userName)
     console.log(userName)
     return res.status(200).json(result)
 

@@ -12,6 +12,7 @@ function DropdownMenu() {
     setDropdownVisible(!dropdownVisible);
   }
   const router =useRouter()
+
   const handleLogout =async (e)=>{
     e.preventDefault()
     try {
@@ -39,7 +40,7 @@ function DropdownMenu() {
         id="userDropdown"
         className={`${
           dropdownVisible ? "block" : "hidden"
-        } z-10 bg-white divide-y relative divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600`}
+        } z-10 bg-white divide-y absolute right-0 divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600`}
       >
         <div className=" px-4 py-3 text-sm text-gray-900 dark:text-white">
           <div>Bonnie Green</div>

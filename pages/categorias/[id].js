@@ -3,7 +3,17 @@ import React from "react";
 import Hero from "@/components/Hero";
 import { data } from "autoprefixer";
 import Link from "next/link";
+
+
+
 const categoriaView = ({ productos }) => {
+
+  const handleCarrito = async(idProducto) =>{
+      const data = {idProducto}
+      const res = await axios.post('/api/carrito/', data)
+      console.log(res)
+  }
+
   return (
     <div className="grid grid-cols-3 ">
         {productos.map(producto =>(
@@ -28,7 +38,9 @@ const categoriaView = ({ productos }) => {
           </p>
           <a
             href="#"
+            key={producto.idProducto}
             class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            onClick={()=> handleCarrito(producto.idProducto)}
           >
             Agregar a Carrito
             <svg
