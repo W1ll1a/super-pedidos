@@ -13,14 +13,15 @@ export default async function handler(req,res){
 
 const saveRegister= async(req,res)=>{
   console.log("Llegue a crear registro")
-  const {firstName,lastName,birthDate,emailAdress,userName,password} = req.body
+  const {firstName,lastName,birthDate,emailAdress,userName,password,profilePicture} = req.body
   const [result] = await pool.query("INSERT INTO usuario SET ?",{
     firstName,
     lastName,
     birthDate,
     emailAdress,
     userName,
-    password
+    password,
+    profilePicture
   })
   console.log(result)
   return res.status(200).json(result)

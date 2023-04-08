@@ -9,7 +9,7 @@ export function useUser() {
     async function fetchUser() {
         const user = await axios.get('/api/login/profile');
         setUser(user.data.username);
-        console.log(user.data.username)
+
     }
 
     useEffect(() => {

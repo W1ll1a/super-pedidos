@@ -3,7 +3,7 @@ import DatePicker from "tailwind-datepicker-react";
 import Link from "next/link";
 import axios from 'axios';
 import moment from 'moment'
-
+import { uploadFile } from '@/firebase/fbConfigProfile';
 
 
 
@@ -13,15 +13,20 @@ const register = () => {
     /*const [selectedDate, setSelectedDate] = useState();*/
     const [show, setShow] = useState();
     const [selected, setSelected]=useState()
+    const [file, setFile] = useState('')
     const [registro, setRegistro]=useState({
         firstName:"",
         lastName:"",
         emailAdress:"",
         userName:"",
         password:"",
-        birthDate:""
+        birthDate:"",
+        profilePicture:""
 
     })
+    const handleFileChange = (e) => {
+      setFile(e.target.files[0]);
+    };
     
     const handleChange = ({target:{name,value}}) => {
       setRegistro({...registro,[name]:value});
@@ -42,9 +47,14 @@ const register = () => {
       };
       const handleSubmit = async(e) =>{
         e.preventDefault()
-        console.log('Creando')
-        const res =await axios.post('/api/register/registerApi', registro)
-        console.log(res);
+        const image = await uploadFile(file);
+        const registerData = {
+          ...registro,
+          profilePicture: image,
+          birthDate:selected
+        }
+        const res =await axios.post('/api/register/registerApi', registerData)
+        
       }
 
   return (
@@ -173,6 +183,11 @@ const register = () => {
                 onChange={dateHandleChange}
               />
             </div>
+            <label className='block uppercase tracking-wide text-black text-xs font-bold mb-2'>
+               Agregue una imagen de perfil</label>
+               <input type="file" className="p-2" onChange={handleFileChange}>
+                
+               </input>
             <button
               type="submit"
               className="w-full text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-semibold rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"

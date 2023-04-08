@@ -9,7 +9,8 @@ export default function profileHandler (req,res){
     try {
         console.log("Envie el token")
         const user = verify(myTokenName, "secrete");
-        return res.json({email:user.email, username:user.username})
+        console.log(user)
+        return res.json({email:user.email, username:user.username, picture:user.picture})
     } catch (error) {
         
     }

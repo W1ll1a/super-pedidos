@@ -1,14 +1,8 @@
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
-import Drawer from "./Drawer";
 import Avatar from "./Avatar";
-import axios from "axios";
 import { useRouter } from "next/router";
-import { verify } from "jsonwebtoken";
-import Cookies from "js-cookie";
-import { jwt } from "jsonwebtoken";
-import Carrito from "./Carrito";
 import { useUser } from "@/hooks/users";
 
 const NavBar = ({
@@ -20,22 +14,10 @@ const NavBar = ({
   const [nav, setNav] = useState(true);
   const [color, setColor] = useState(initialColor);
   const [textColor, setTextColor] = useState(textInitialColor);
-  const [openClose, setOpenClose] = useState(false);
-  const [visibleTogggle,setVisible]=useState(false);
 
   const user = useUser();
+  console.log("the user that i got is " , user)
 
-  const toggleOpenClose = () => {
-    setOpenClose(!openClose);
-    openDrawer();
-  };
-  const openDrawer = () => {
-    if (openClose === true) {
-      <Drawer open={true}></Drawer>;
-    } else {
-      <Drawer open={false}></Drawer>;
-    }
-  };
   const handleNav = () => {
     setNav(!nav);
   };
@@ -78,7 +60,7 @@ const NavBar = ({
         <ul style={{ color: `${textColor}` }} className="hidden sm:flex">
           
           {user && <li className=" p-4 ">
-            <button onClick={()=>{router.push("/carrito/index")}}>
+            <button onClick={()=>{router.push("/carrito/carrito")}}>
               <svg
                 className="h-8 w-8 text-white"
                 viewBox="0 0 24 24"
@@ -95,21 +77,23 @@ const NavBar = ({
               </svg>
             </button>   
             </li>}
-          <li className=" p-4">
+          {!user && <li className=" p-4">
             <button onClick={()=>{router.push('/auth/register')}}>
             Register
             </button>
            
-          </li>
-          <li className=" p-4">
+          </li>}
+          {!user && <li className=" p-4">
         
             <button onClick={()=>{router.push('/auth/login')}}>Login</button>
       
-          </li>
+          </li>}
           
-          <li className=" p-4">
+         {user &&
+         <li className=" p-4">
             <Avatar/>
           </li>
+         } 
      
         </ul>
         {/*Mobil button*/}

@@ -23,7 +23,6 @@ export default function Home({categorias}) {
          {categoria.categoryDescription}
        </p>
      </div>
-   
    </div>
       </Link>
     </div>

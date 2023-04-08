@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import Link from "next/link";
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const login = () => {
@@ -18,9 +20,14 @@ const login = () => {
   }
   const handleSubmit = async (e)=>{
     e.preventDefault()
-    const res = await axios.post('/api/login/loginApi',credentials)
-    console.log(res)
-    router.push('/')
+    try {
+      const res = await axios.post('/api/login/loginApi',credentials)
+      console.log(res)
+      router.push('/')
+    } catch (error) {
+      console.error(error);
+      toast.error('Error al iniciar sesión');
+    }
   }
 
   return (
@@ -126,6 +133,7 @@ const login = () => {
               </Link>
             </div>
           </form>
+          <ToastContainer/>
         </div>
       </div>
     </div>
