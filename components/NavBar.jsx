@@ -16,7 +16,7 @@ const NavBar = ({
   const [textColor, setTextColor] = useState(textInitialColor);
 
   const user = useUser();
-  console.log("the user that i got is " , user)
+ 
 
   const handleNav = () => {
     setNav(!nav);

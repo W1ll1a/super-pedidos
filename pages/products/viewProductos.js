@@ -39,7 +39,6 @@ export default function Home({productos}) {
 }
 
 export const getServerSideProps = async(context) =>{
-
   const {data:productos} = await axios.get('http://localhost:3000/api/products/productosApi')
   return{
     props:{

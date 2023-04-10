@@ -26,6 +26,7 @@ const saveCategoria = async (req, res) =>{
 
 const getCategoria = async (req,res) =>{
     const [result] = await pool.query("SELECT * FROM categorias")
+  
     console.log(result)
     return res.status(200).json(result)
 }

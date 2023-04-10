@@ -1,10 +1,12 @@
 import Hero from '@/components/Hero'
 import axios from 'axios'
 import Link from 'next/link'
+import { useId } from 'react'
 
 
 export default function Home({categorias}) {
-
+  const idUsuario = useId()
+    console.log(idUsuario)
   return (
   <>
     <Hero></Hero>
@@ -34,7 +36,6 @@ export default function Home({categorias}) {
 }
 
 export const getServerSideProps = async(context) =>{
-
   const {data:categorias} = await axios.get('http://localhost:3000/api/categorias/categoriasApi')
   return{
     props:{

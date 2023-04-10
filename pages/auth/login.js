@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useUser } from '@/hooks/users';
 
 
 const login = () => {
@@ -18,17 +19,32 @@ const login = () => {
           [e.target.name]: e.target.value
       })
   }
-  const handleSubmit = async (e)=>{
-    e.preventDefault()
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
     try {
-      const res = await axios.post('/api/login/loginApi',credentials)
-      console.log(res)
-      router.push('/')
+      // Hacer una solicitud POST a la API de inicio de sesión
+      const res = await axios.post("/api/login/loginApi", credentials);
+  
+      if (res.data.message === "Inicio de sesión exitoso.") {
+        // Si el inicio de sesión fue exitoso, hacer una solicitud POST a la API para agregar el carrito
+        const response = await axios.post("/api/carrito/", credentials);
+  
+        // Si se agregó el carrito correctamente, redirigir al usuario a la página principal
+        if (response.status === 200) {
+          router.push("/").then(router.reload);
+          
+        } else {
+          toast.error("Error al agregar el carrito");
+        }
+      } else {
+        toast.error(res.data.message);
+      }
     } catch (error) {
       console.error(error);
-      toast.error('Error al iniciar sesión');
+      toast.error("Error al iniciar sesión");
     }
-  }
+  };
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900">

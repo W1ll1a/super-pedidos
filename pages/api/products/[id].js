@@ -7,6 +7,7 @@ export default async function getProductosFromId (req,res){
         console.log(id)
         const {result}= await pool.query('SELECT * FROM productos WHERE idProducto = ? ', [id])
         console.log("envie producto", result)
+        
         return res.status(200).json(result)  
 
     }catch(error){  

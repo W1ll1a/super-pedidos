@@ -17,7 +17,7 @@ const [dropdownVisible, setDropdownVisible] = useState(false);
   const user = useUser();
   const userEmail = useUserEmail();
   const profilePicture = useUserPicture()
-  console.log("profile picture is", profilePicture)
+
 
   const router =useRouter()
 
@@ -26,7 +26,7 @@ const [dropdownVisible, setDropdownVisible] = useState(false);
     try {
       const response = await axios.post('/api/login/logout')
       console.log(response)
-      router.push('/')
+      router.reload()
     } catch (error) {
       console.log(error)
     }
@@ -96,6 +96,7 @@ const [dropdownVisible, setDropdownVisible] = useState(false);
              text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600
               dark:text-gray-200 dark:hover:text-white"
             onClick={handleLogout}
+
           >
             Sign out
           </b>

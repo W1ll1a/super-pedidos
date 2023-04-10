@@ -30,6 +30,7 @@ const saveProducto = async (req, res) =>{
 
 const getProductos = async (req,res) =>{
     const [result] = await pool.query("SELECT * FROM productos")
+    pool.end()
     console.log(result)
     return res.status(200).json(result)
 }

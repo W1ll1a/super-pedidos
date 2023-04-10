@@ -20,5 +20,6 @@ const getCategoria = async(req, res)=>{
 const deleteCategoria = async(req,res) =>{
     const {id} = req.query
     const result= await pool.query('DELETE FROM categorias WHERE idCategoria = ?', [id])
+    
     return res.status(204).json() 
 }

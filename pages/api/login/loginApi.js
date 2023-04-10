@@ -14,7 +14,7 @@ export default async function loginHandler(req,res){
 
         // Buscar el usuario correspondiente en la base de datos
         const [result]= await pool.query("SELECT * FROM usuario WHERE emailAdress = ?", email);
-
+       
         // Verificar si se encontró un usuario con el correo electrónico dado
         if (result.length === 0) {
             return res.status(404).json({ message: 'No se encontró un usuario con el correo electrónico dado.' });

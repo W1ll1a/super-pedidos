@@ -7,14 +7,12 @@ export function useUserEmail() {
     const [userEmail, setUserEmail] = useState(null);
      
     async function fetchUser() {
-        const userEmail = await axios.get('/api/login/profile');
-        setUserEmail(userEmail.data.email);
-        console.log(userEmail.data.email)
-
+        const response = await axios.get('/api/login/profile');
+        return response.data.email;
     }
 
     useEffect(() => {
-        fetchUser()
+        fetchUser().then(email => setUserEmail(email));
     }, []);
 
     return userEmail;
