@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { verify } from 'jsonwebtoken';
 import axios from 'axios';
 import { useUser } from '@/hooks/users';
+import { useRouter } from 'next/router';
+
 
 const carrito = () => {
   const user = useUser();
   const [productos, setProductos] = useState([]);
-  
+  const router = useRouter()
+
   const handleDeleteProduct = async(idProducto)=>{
     if (!user){
       return []
@@ -22,6 +25,10 @@ const carrito = () => {
     const productos = await axios.get(`/api/carrito?username=${username}`);
     console.log('este es el producto que estoy treyendo. ',productos.data);
     return productos.data
+  }
+  const handleBuyProduct = ()=>{
+    
+    router.push('/wallet/viewWallet')
   }
   
   useEffect(() => {
