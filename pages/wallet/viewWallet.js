@@ -2,8 +2,13 @@ import { useUserId } from '@/hooks/userId'
 import React, { useCallback } from 'react'
 import { useState,useEffect } from 'react'
 import axios from 'axios'
+import { useRouter } from 'next/router'
+import jsPDF from 'jspdf'
+
 
 const viewWallet = () => {
+  const router = useRouter()
+
   const userId = useUserId()
   const [creditCards, setCreditCards] = useState([])
   const [showModal, setShowModal] = useState(false);
@@ -15,12 +20,29 @@ const viewWallet = () => {
     fetchCreditCards()
   }, [userId])
 
+  const generatePDF = () => {
+    try {
+      const doc = new jsPDF();
+      doc.setProperties({
+        title: 'Factura de compra'
+      });
+      doc.text('Hello World!', 90, 10);
+      const pdfData = doc.output('dataurl');
+      setTimeout(() => {
+        window.open(pdfData, '_blank');
+      }, 1000);
+    } catch (error) {
+      console.log(error);
+      alert('Ocurrió un error al generar el PDF');
+    } 
+  }
   const handleUtilizarClick = useCallback((date) => {
     const today= new Date()
     const expiration = new Date(date)
     if (expiration> today) {
       setShowModal(true);
     } else {
+      alert("Esta tarjeta ha caducado.")
       // Aquí puedes mostrar algún mensaje indicando que la tarjeta ha expirado
     }
   }, [setShowModal]);
@@ -93,9 +115,7 @@ const viewWallet = () => {
             <button
               type="button"
               className="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-red-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-red-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red transition ease-in-out duration-150 sm:text-sm sm:leading-5"
-              onClick={() => {
-                // Handle the buy action here
-              }}
+              onClick={generatePDF}
             >
               Comprar
             </button>

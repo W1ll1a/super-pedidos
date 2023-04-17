@@ -26,7 +26,7 @@ const carrito = () => {
     console.log('este es el producto que estoy treyendo. ',productos.data);
     return productos.data
   }
-  const handleBuyProduct = ()=>{
+  const handleBuyProduct = (idProducto)=>{
     
     router.push('/wallet/viewWallet')
   }
