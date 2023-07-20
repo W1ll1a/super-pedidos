@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import Link from "next/link";
 import axios from 'axios';
 import { useRouter } from 'next/router';
@@ -12,39 +12,58 @@ const login = () => {
     email:'',
     password:''
   })
-  const router=useRouter()
-  const handleUsuario = (e)=>{
-      setCredentials({
-        ...credentials,
-          [e.target.name]: e.target.value
-      })
-  }
+  const router = useRouter();
+  const MAX_LOGIN_ATTEMPTS = 3; // Maximum login attempts before blocking
+  const [loginAttempts, setLoginAttempts] = useState(0);
+  const [isBlocked, setIsBlocked] = useState(false);
+
+  const handleUsuario = (e) => {
+    setCredentials({
+      ...credentials,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  useEffect(() => {
+    if (loginAttempts >= MAX_LOGIN_ATTEMPTS) {
+      setIsBlocked(true);
+      toast.error("Usuario bloqueado por múltiples intentos fallidos. Inténtalo más tarde.");
+    }
+  }, [loginAttempts]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
+    if (isBlocked) {
+      toast.error("Usuario bloqueado por múltiples intentos fallidos. Inténtalo más tarde.");
+      return;
+    }
+
     try {
       // Hacer una solicitud POST a la API de inicio de sesión
       const res = await axios.post("/api/login/loginApi", credentials);
-  
+
       if (res.data.message === "Inicio de sesión exitoso.") {
         // Si el inicio de sesión fue exitoso, hacer una solicitud POST a la API para agregar el carrito
         const response = await axios.post("/api/carrito/", credentials);
-  
+
         // Si se agregó el carrito correctamente, redirigir al usuario a la página principal
         if (response.status === 200) {
           router.push("/").then(router.reload);
-          
+
         } else {
           toast.error("Error al agregar el carrito");
+          
         }
-      } else {
-        toast.error(res.data.message);
       }
     } catch (error) {
       console.error(error);
-      toast.error("Error al iniciar sesión");
+      setLoginAttempts((prevAttempts) => prevAttempts + 1);
+      toast.error("La contraseña o correo es incorrecto.")     
+      //toast.error(res.data.message);
     }
   };
+
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
@@ -127,9 +146,10 @@ const login = () => {
             <button
               type="submit"
               className="w-full text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-semibold rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-              
+              onClick={handleSubmit}
+               disabled={isBlocked}
             >
-              Log In
+              {isBlocked ? "Usuario Bloqueado" : "Log In"}
             </button>
             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
               Don’t have an account yet?{" "}
