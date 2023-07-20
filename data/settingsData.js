@@ -27,6 +27,21 @@ export const SettingsData = [
         Link:"/products/misProductos",
         img:"/delivery-box.png"
         
+    },
+    {
+        title:"wallet",
+        description:"Puedes ver tus tarjetas aqui",
+        Link:"/wallet/viewWallet",
+        img:"/wallet.png"
+        
+    },
+    {
+        title:"Direcciones",
+        description:"Indica aqui, ls lugares donde se te puede entregar el producto",
+        Link:"/adresses",
+        img:"/placeholder.png"
+        
     }
+
     
     ]

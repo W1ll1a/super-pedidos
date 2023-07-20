@@ -26,8 +26,13 @@ const carrito = () => {
     console.log('este es el producto que estoy treyendo. ',productos.data);
     return productos.data
   }
-  const handleBuyProduct = (idProducto)=>{
-    
+  const handleBuyProduct = async(nombreProducto, precioProducto)=>{
+   /* const today = new Date().toISOString().split('T')[0]
+    const res = await axios.post("http://localhost:3000/api/order/orderApi",{
+      nombreProducto,
+      precioProducto,
+      today
+    })*/
     router.push('/wallet/viewWallet')
   }
   
@@ -43,7 +48,13 @@ const carrito = () => {
     }
     fetchData();
   }, [user]);
-  
+  if (productos.length===0){
+    return(
+  <div className='flex items-center justify-center h-screen'>
+    <p className='text-center'>No tienes productos en el carrito.</p>
+  </div> 
+    )
+  }
   return (
     <div className="grid grid-cols-3 ">
     {productos.map(producto =>(
@@ -71,7 +82,7 @@ const carrito = () => {
         href="#"
         key={producto.idProducto}
         class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        onClick={()=> handleBuyProduct(producto.idProducto)}
+        onClick={()=> handleBuyProduct(producto.nombreProducto,producto.precioProducto)}
       >
         Comprar producto
         <svg
