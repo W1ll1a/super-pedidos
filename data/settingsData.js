@@ -15,9 +15,9 @@ export const SettingsData = [
         
     },
     {
-        title:"orders",
-        description:"Revisa tus ordenes",
-        Link:"/",
+        title:"Crear Producto",
+        description:"Crea un nuevo producto",
+        Link:"/products/crearProductos",
         img:"/orders.png"
         
     },
@@ -40,6 +40,14 @@ export const SettingsData = [
         description:"Indica aqui, ls lugares donde se te puede entregar el producto",
         Link:"/adresses",
         img:"/placeholder.png"
+        
+    }
+    ,
+    {
+        title:"Categorias",
+        description:"Crea nuevas categorias",
+        Link:"/categorias/crearCategorias",
+        img:"/categories.png"
         
     }
 

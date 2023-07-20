@@ -19,7 +19,7 @@ const viewWallet = () => {
     }
     fetchCreditCards()
   }, [userId])
-
+  
   const generatePDF = () => {
     try {
       const doc = new jsPDF();
@@ -46,6 +46,20 @@ const viewWallet = () => {
       // Aquí puedes mostrar algún mensaje indicando que la tarjeta ha expirado
     }
   }, [setShowModal]);
+
+  const handleDeleteClick = async() =>{
+    
+  }
+
+  if (creditCards.length===0){
+    return (
+      <div className='flex justify-center items-center h-screen'>
+        <p className='text-center'>
+          No tienes tarjetas.
+        </p>
+      </div>
+    )
+  }
   return (
     <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
   {creditCards.map((creditCard) => (
@@ -74,6 +88,10 @@ const viewWallet = () => {
         <button className='bg-pink-500 hover:bg-pink-600 text-white font-semibold rounded-lg text-sm px-5 py-2.5 text-center'
            onClick={() => handleUtilizarClick(creditCard.expirationDate)}>
             Utilizar
+        </button>
+        <button className='bg-pink-500 hover:bg-pink-600 text-white font-semibold rounded-lg text-sm px-5 py-2.5 text-center'
+           onClick={() => handleDeleteClick()}>
+            Eliminar
         </button>
       </div>
     </div>
