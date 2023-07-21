@@ -8,7 +8,6 @@ import { uploadFile } from '@/firebase/fbConfigProfile';
 
 
 
-
 const register = () => {
     /*const [selectedDate, setSelectedDate] = useState();*/
     const [show, setShow] = useState();
@@ -51,7 +50,8 @@ const register = () => {
         const registerData = {
           ...registro,
           profilePicture: image,
-          birthDate:selected
+          birthDate:selected,
+          
         }
         const res =await axios.post('/api/register/registerApi', registerData)
         

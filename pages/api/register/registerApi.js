@@ -1,7 +1,14 @@
 import { pool } from "@/config/db";
 import { jwt } from "jsonwebtoken";
 
+import bcrypt from 'bcrypt'; // Importamos bcrypt para encriptar la contraseña
 
+// Función para encriptar la contraseña
+const hashPassword = async (password) => {
+  const saltRounds = 10; // Mayor número de saltos, mayor seguridad (pero más lento)
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
+  return hashedPassword;
+};
 export default async function handler(req,res){
     switch(req.method){
         case 'POST':
@@ -14,16 +21,18 @@ export default async function handler(req,res){
 const saveRegister= async(req,res)=>{
   console.log("Llegue a crear registro")
   const {firstName,lastName,birthDate,emailAdress,userName,password,profilePicture} = req.body
+  const hashedPassword = await hashPassword(password);
   const [result] = await pool.query("INSERT INTO usuario SET ?",{
     firstName,
     lastName,
     birthDate,
     emailAdress,
     userName,
-    password,
+    password: hashedPassword,
     profilePicture
   })
   console.log(result)
+  
   return res.status(200).json(result)
 }
 
